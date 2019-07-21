@@ -35,15 +35,15 @@ def TransFileName2ClassName(_strFileName):
         strClassName += 'Test'
     return strFileMainName , strClassName
 
-def ImportTestModule(_strCasePath):
+def ImportTestModule(_strCasePath , _strFilter = ""):
     testFileList = []
     for root , dirs , files in os.walk(_strCasePath):
         if root.find('case') == -1:
             continue
         for filename in files :
-            if filename.find("b00") != -1:
-                continue
-            if filename.endswith('.py') and filename.find('mjf') == -1:
+            if ((len(_strFilter) > 0 and filename.find(_strFilter) != -1) or len(_strFilter) == 0) \
+            and filename.endswith('.py') \
+            and filename.find('mjf') == -1:
                 testFileList.append(filename)
     testNameList = []
     importModulesList = []
@@ -60,7 +60,10 @@ def ImportTestModule(_strCasePath):
     return importClassList
 
 if __name__ == '__main__':
-    testClsLists = ImportTestModule(g_strRootDir + "/unittest/case")
+    strFilter = ""
+    if len(sys.argv) > 1:
+        strFilter = sys.argv[1]
+    testClsLists = ImportTestModule(g_strRootDir + "/unittest/case" , strFilter)
     suite = unittest.TestSuite()
     for clsObj in testClsLists:
         suite.addTest(clsObj[1]('testRun'))

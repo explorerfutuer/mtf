@@ -5,6 +5,12 @@ import datetime
 import time
 import traceback
 
+
+def LogTip(_strTip):
+    print(_strTip)
+
+def PrintTip(_strTip):
+    print(_strTip)
 # 跟时间戳返回日期字符串
 def TimeStamp2StrDT(_timestamp , _strFormat = "%Y-%m-%d %H:%M:%S"):
     structTM = time.localtime(_timestamp)
