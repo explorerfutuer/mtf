@@ -1,0 +1,55 @@
+#+STARTUP:indent
+* sqlite3 python接口封装                                                                                                                          
+** 数据库配置
+** 数据库连接
+** 数据库查询
+** 数据库删除
+** 数据库更新
+** 数据库事务
+** sqlite3模块
+*** 概述
+sqlit3模块python2.5之后的系统自带。
+*** 内置方法   
+**** 常用操作
+1. connect
+   返回Connection对象(数据库连接对象)
+   打开一个sqlite数据库文件database(数据库文件名),可以使用":memory:"打开一个内存数据库。
+   connect(database[, timeout, detect_types, isolation_level,check_same_thread, factory, cached_statements, uri])
+   timeout：连接等待锁定的持续时间，默认超时时间5秒。当多个连接操作一个数据库时，特别是事务操作。
+   isolation_level：None:{自动提交}，"":{空值即使用默认值，智能提交，使用connect.commit()进行提交}，"DEFERRED":{}，"IMMEDIATE":{}，"EXCLUSIVE":{}
+3.
+**** 配置操作
+1. 
+*** 内置类
+1. Connection 类
+   sqlite3内置方法connect返回的对象为Connection
+   + close() 关闭当前连接
+   + commit() 提交当前事务
+   + rollback() 回滚当前事务
+   + cursor() 返回当前连接的游标
+   + execute(sql[, optional parameters])
+      执行sql语句，此方法是cursor.execute()的快捷方式
+   + executemany(sql, seq_of_parameters)
+     此方法是cursor.executemany()的快捷方式
+   + executescript(sql_script)
+     curosr.executescript()的快捷方式
+   + total_changes()
+     返回 *自数据库打开以来* 被修改、插入、删除的记录数
+2. Cursor 类
+   由connect.cursor()返回对象
+   + execute(sql[, optional parameters])
+     执行sql语句，sqlite3支持占位符，问号和命名占位符
+     cursor.execute("insert into people values (?, ?)", (who, age))
+   + executmany(sql , seq_of_parameters)
+      对seq_of_parameters 中的所有参数执行一次sql命令
+   + executescript(sql_script)
+     执行sql脚本，首先执行comit; ，然后执行sql脚本中的SQL语句，语句必须(;)分隔
+   + fetchone()
+     获取查询结果集中的下一行，返回一个单一的序列，当没有更多可用的数据时，则返回 None。
+   + fetchmany([size=cursor.arraysize])
+     获取查询结果集中的下一行组，返回一个列表。当没有更多的可用的行时，则返回一个空的列表。
+   + fetchall()
+     获取查询结果集中所有（剩余）的行，返回一个列表。当没有可用的行时，则返回一个空的列表。
+
+
+

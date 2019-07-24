@@ -3,7 +3,7 @@
 
 from LogCfg import LogCfg
 from LogCode import LogCode
-from GlobalCfg import  g_LogName
+from GlobalCfg import  g_strLogName
 
 class I_Log:
     def __init__(self):
@@ -20,11 +20,12 @@ class I_Log:
         pass
 
 class LogMtf(I_Log):
-    def __init__(self , _obj , _strLogName = g_LogName):
+    def __init__(self , _obj , _strLogName = g_strLogName):
         self.m_Log = None
+        self.strLogName = _strLogName
         self.Init(_obj)
     def Init(self , _obj):
-        self.m_Log = LogCfg(_strLogName , _obj) # 配置文件路径
+        self.m_Log = LogCfg(self.strLogName , _obj) # 配置文件路径
         # self.m_Log = LogCode(_strLogName , _obj)  # 日志输出路经
         self.m_Log.LogDebug("Init LogMtf Successful")
         return True
@@ -44,4 +45,4 @@ class LogMtf(I_Log):
         self.m_Log.LogCritical(_str)
         return True
         
-g_Log = LogMtf("./cfgmtf/log.json" , g_LogName)
+g_Log = LogMtf("./cfgmtf/log.json" , g_strLogName)
