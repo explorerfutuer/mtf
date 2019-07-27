@@ -58,10 +58,12 @@ def ImportTestModule(_strCasePath , _strFilter = ""):
         importModulesList.append(dyModule)
         importClassList.append([names[1] , clsObj])
     return importClassList
-def InitCopyCfg():
+def InitCfg():
     os.system("cp  ../bin/cfgmtf/ . -rf")
+    os.system("rm -rf ./data/")
+    os.system("rm -rf ./debug/")
 if __name__ == '__main__':
-    InitCopyCfg()
+    InitCfg()
     strFilter = ""
     if len(sys.argv) > 1:
         strFilter = sys.argv[1]

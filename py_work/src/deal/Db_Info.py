@@ -3,9 +3,9 @@
 
 # 数据库操作实体信息
 class Qry_Res_Info:
-    def __inti__(self):
+    def __init__(self):
         self.iStatus = 0   # 查询状态
-        self.listRes = []  # 查询结果集
+        self.listRes = []  # 查询结果集 [(col1,col2,...,coln),(col1,col2,...,coln)....]
         self.iErrCode = 0  # 查询错误代码
         self.strErrDesc = "" # 查询错误原因
 

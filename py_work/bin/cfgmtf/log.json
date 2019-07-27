@@ -2,7 +2,7 @@
     "version": 1,
     "formatters": {
         "json_format": {
-	    "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+	    "format": "%(asctime)s [%(thread)x]- %(name)s - %(levelname)s - %(message)s"
  	}
     },
     "handlers": {

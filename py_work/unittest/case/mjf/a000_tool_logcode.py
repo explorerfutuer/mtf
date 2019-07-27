@@ -52,6 +52,6 @@ class A000_Tool_Logcode_Test(unittest.TestCase):
     def tearDown(self):
         try:
             os.chdir(self.strRunDir)
-            os.remove(self.strLogFile)
+#            os.remove(self.strLogFile)
         except:
             PrintTip(traceback.format_exc())            
