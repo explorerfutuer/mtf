@@ -4,10 +4,11 @@
 import datetime
 import time
 import traceback
-
+from LogMtf  import  g_Log
 
 def LogTip(_strTip):
     print(_strTip)
+    g_Log.LogDebug(_strTip)
 
 def PrintTip(_strTip):
     print(_strTip)
