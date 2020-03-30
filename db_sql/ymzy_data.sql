@@ -2,11 +2,11 @@
 * 所有表结构和SQL语句均采用小写字母
 * 设计默认采用mysql数据库
 */
-drop database yimeizhi ;
+drop database perfectcloth ;
 
-create database if not exists yimeizhiyi default character set utf8 collate utf8_general_ci ;  -- 设置数据库字符集和校验字符集
+create database if not exists perfectcloth default character set utf8 collate utf8_general_ci ;  -- 设置数据库字符集和校验字符集
 
-use yimeizhiyi ;
+use perfectcloth ;
 
 create table if not exists employee_info(
 	synseq			int unsigned auto_increment unique , -- 记录编号

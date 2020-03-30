@@ -4,4 +4,5 @@ tmp*
 *.o
 py_work/unittest/cfgmtf*
 py_work/unittest/TestReport.html
-py_work/unittest/debug*
+*/debug/*
+*/__pycache__/*

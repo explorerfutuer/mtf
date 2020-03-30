@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 #coding:utf-8
 
 # NOTSET(0）、DEBUG(10）、INFO(20）、WARNING(30）、ERROR(40）、CRITICAL(50)
@@ -11,33 +11,32 @@ import os
 import json
 import traceback
 
-from tools import LogTip
+class LogI:
+    def __init__(self):
+        pass
+    def log_debug(self , _str):
+        pass
+    def log_info(self , _str):
+        pass
+    def log_warn(self , _str):
+        pass
+    def log_error(self , _str):
+        pass
+    def log_critical(self , _str):
+        pass
 
-
-class LogCfg:
-    def __init__(self , _strLogName , _strLogCfg):
+class Logger(LogI):
+    def __init__(self, _strLogName , _strLogCfg):
         self.bState = False
-        self.strLogCfg = _strLogCfg
         self.strLogName = _strLogName
         self.strLogFile = ""
-        fdCfg = None
-        try:
-            fdCfg = open(_strLogCfg , "r")
-        except :
-            LogTip("[__init__] " + traceback.format_exc())
-            LogTip("[__init__] 配置文件" + _strLogCfg + "无效")
-            return None
-        if fdCfg is not None:
-            fdCfg.close()
-        self.bState = self.InitCfg()
-        if not self.bState :
-            LogTip("[__init__] LogCfg初始化[失败]")
+        self.init_by_jsonfile(_strLogCfg)
+        if not self.bState :            
             return False
-        LogTip("LogCfg初始化[成功]")
-    def JsonCfg(self , _dictCfg):
+        self.log_debug("log load successful")
+    def ensure_cfg_valid(self, _dictCfg):
         # 确保日志目录存在
         self.strLogFile = _dictCfg["handlers"]["rotatefile"]["filename"]
-        #LogTip("[JsonCfg] strLogFile=" + str(self.strLogFile))
         try:
             os.makedirs(self.strLogFile) # 将日志文件视为路径创建出来
             os.rmdir(self.strLogFile)
@@ -47,48 +46,39 @@ class LogCfg:
                 LogTip("[JsonCfg] " + traceback.format_exc())
         # 偷梁换柱，将配置文件中的日志名RotateFileLogger改为self.strLogName
         _dictCfg["loggers"][self.strLogName] = _dictCfg["loggers"].pop("RotateFileLogger")
-        #LogTip("[JsonCfg] strLogName = " + str(self.strLogName))
-    def InitCfg(self):
+    def init_by_jsonfile(self, _strLogCfg):
+        self.strLogCfg = _strLogCfg
         fdJson = None
         bRet = False
         try:
             fdJson = open(self.strLogCfg , "r")
         except :
-            LogTip("[InitCfg] " + traceback.format_exc())
+            print("[", self.__class__.__name__ , "] load json file failed", traceback.format_exc())
             fdJson = None
         if fdJson is not None:
             dictCfg = None
             try:
                 strCfg = fdJson.read()
                 dictCfg = json.loads(strCfg)
-                self.JsonCfg(dictCfg)
+                self.ensure_cfg_valid(dictCfg)
                 logging.config.dictConfig(dictCfg)
                 bRet = True
             except :
-                LogTip("[InitCfg] Load Json Failed " + traceback.format_exc())
-                LogTip("[InitCfg] " + str(dictCfg))
+                print("[", self.__class__.__name__ , "] convert json failed", traceback.format_exc())
                 bRet = False
             fdJson.close()
             self.rfLog = logging.getLogger(self.strLogName)
-            return bRet
-    def LogDebug(self , _strTip):
+            self.bState = True
+    def log_debug(self , _strTip):
         self.rfLog.debug(_strTip)
-    def LogInfo(self , _strTip):
+    def log_info(self , _strTip):
         self.rfLog.info(_strTip)
-    def LogWarn(self , _strTip):
+    def log_warn(self , _strTip):
         self.rfLog.warn(_strTip)
-    def LogError(self , _strTip):
+    def log_error(self , _strTip):
         self.rfLog.error(_strTip)
-    def LogCritical(self , _strTip):
+    def log_critical(self , _strTip):
         self.rfLog.critical(_strTip)
-
-if "__main__" == __name__:
-    tLog = LogCfg("MainTest" , "./logcfg.json")
-    tLog.LogInfo("info test")
-    tLog.LogDebug("debug test")
-    tLog.LogWarn("warn test")
-    tLog.LogError("error test")
-    tLog.LogCritical("critical test")
 
 """
 json 格式 =>

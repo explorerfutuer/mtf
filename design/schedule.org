@@ -1,5 +1,7 @@
 * PerfectCloth
-** 开发计划
-*** 任务布置
-**** 对单元测试指定测试文件种类
-**** logging通过配置文件创建对象
+** develop progress
+*** task planning
+**** unittest design
+**** log design
+**** database design
+**** service design
